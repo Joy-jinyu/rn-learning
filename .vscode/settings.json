@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "eslint.validate": ["javascript", "javascriptreact", "html", "vue"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "commentTranslate.targetLanguage": "en",
+  "commentTranslate.hover.enabled": false
+}
