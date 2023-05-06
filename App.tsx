@@ -5,6 +5,7 @@
  * @format
  */
 
+// Users/mac/workspace/newbanker/open-source/taroRn/node_modules/react-native/scripts/launchPackager.command
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -17,17 +18,16 @@ import {
   View,
 } from 'react-native';
 
+import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import {WebView} from 'react-native-webview';
+  WebView,
+  WebViewMessageEvent,
+  WebViewNavigation,
+} from 'react-native-webview';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {WebViewErrorEvent} from 'react-native-webview/lib/WebViewTypes';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -59,6 +59,26 @@ function Section({children, title}: SectionProps): JSX.Element {
   );
 }
 
+const styles = StyleSheet.create({
+  sectionContainer: {
+    marginTop: 32,
+    padding: 24,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+  },
+  highlight: {
+    fontWeight: '700',
+    color: 'blue',
+  },
+});
+
 const HomeScreen = ({navigation}: any) => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -84,36 +104,64 @@ const HomeScreen = ({navigation}: any) => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
+          <Section title="内网">
+            <Text style={styles.highlight} onPress={goWebview}>
+              论坛
+            </Text>
           </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <View>
-            <Text onPress={goWebview}>跳转webview</Text>
-          </View>
-          <LearnMoreLinks />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
+const webviewStyles = StyleSheet.create({
+  webView: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  loadingContent: {
+    flex: 1,
+    fontSize: 26,
+    fontWeight: '700',
+    color: '#000',
+  },
+});
+
 const WebviewScreen = () => {
+  const handleLoadEnd = () => {
+    console.log('加载完成');
+  };
+  const handleLoadError = (e: WebViewErrorEvent) => {
+    console.log('加载报错', e);
+  };
+
+  const handleMessage = (e: WebViewMessageEvent) => {
+    console.log('收到消息', e);
+  };
+
+  const handleNavigationChange = (e: WebViewNavigation) => {
+    console.log('navigate change', e);
+  };
+
   return (
     <WebView
       source={{
         uri: 'https://yx.fullgoalservice.com.cn/ec-share/appStaffKnowledgeList',
+        headers: {
+          'Cache-Control': 'no-catch',
+        },
       }}
-      style={{flex: 1}}
+      mixedContentMode="always"
+      startInLoadingState={false}
+      renderLoading={() => (
+        <Text style={webviewStyles.loadingContent}>加载中...</Text>
+      )}
+      onLoadEnd={handleLoadEnd}
+      onError={handleLoadError}
+      onNavigationStateChange={handleNavigationChange}
+      onMessage={handleMessage}
+      style={webviewStyles.webView}
     />
   );
 };
@@ -131,24 +179,5 @@ const App = () => {
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;

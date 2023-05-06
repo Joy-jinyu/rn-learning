@@ -12,3 +12,12 @@
 
 
  adb devices
+ brew install android-platform-tools
+
+ ### 调试技巧
+
+ ```markdown
+* Android 模拟器开启 Command* + M
+* iOS模拟器 Command* + D
+* 真机可以通过摇动手机开启
+```

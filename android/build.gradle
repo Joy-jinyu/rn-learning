@@ -14,10 +14,8 @@ buildscript {
         google()
         mavenCentral()
         maven { url "https://maven.aliyun.com/repository/public" }
-        maven { url 'https://www.jitpack.io' }
     }
     dependencies {
-		implementation 'com.github.User:Repo:Tag'
         classpath("com.android.tools.build:gradle:7.3.1")
         classpath("com.facebook.react:react-native-gradle-plugin")
     }
