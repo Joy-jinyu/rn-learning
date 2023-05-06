@@ -1,6 +1,10 @@
 ### 新增依赖
-+ yarn add 
-+ npx pod-install ios
++ yarn add
++ android 
+    - cd android 
+    - ./gradlew app:installDebug -PreactNativeDevServerPort=808
++ ios 
+    - npx pod-install ios
 
 **问题**
 ```shell
